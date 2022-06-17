@@ -120,7 +120,7 @@ class SocketDataManager: NSObject, StreamDelegate {
     
     func messageReceived(message: String){
         
-        //uiPresenter?.update(message: "server said: \(message)")
+        uiPresenter?.update(message: "server said: \(message)")
         
         uiPresenter?.updateData(data: message)
         

@@ -69,7 +69,7 @@ extension ViewController: PresenterProtocol{
     
     func updateData(data: String){
         
-        //print(data)
+        print(data)
         
         
         
