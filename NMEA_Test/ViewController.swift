@@ -69,11 +69,18 @@ extension ViewController: PresenterProtocol{
     
     func updateData(data: String){
         
-        print(data)
+        //print(data)
         
         
+        //GNGGA or GPGGA w/ Altitude
+        //GNRMC or GPRMC wo/ Altitude
         
-        if let location : CLLocation = NmeaParser.parseSentence(data: data) {
+        //let testSentance = "$GNGGA,170110.20,4606.4473096,N,01313.6469059,E,5,12,1.63,135.856,M,44.137,M,0.2,3597*66\n"
+        //let testSentance = "$GNRMC,170108.80,A,4606.4473168,N,01313.6469219,E,0.043,,170622,,,F,V*1B\n"
+
+        let altitudeRequired = true
+        
+        if let location : CLLocation = NmeaParser.parseSentence(data: (data), altitudeRequired: altitudeRequired) {
             
             //print(location)
             

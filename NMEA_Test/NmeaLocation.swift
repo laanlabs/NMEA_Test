@@ -26,9 +26,10 @@ public class NmeaParser {
     ///
     /// - Parameter data: An NMEA sentence as String
     /// - Returns: An CLLocation object
-    public static func parseSentence(data: String) -> CLLocation? {
+    public static func parseSentence(data: String, altitudeRequired: Bool) -> CLLocation? {
         //print("Input sentence: \(data)")
         
+        //$GNGGA and $GNRMC
         
         let nmeaLines = data.components(separatedBy: "\n")
         
@@ -41,13 +42,14 @@ public class NmeaParser {
                 
                 switch type {
                     //GET ALTITUDE FIRST
-                case "$GPGGA":
+                case "$GPGGA", "$GNGGA":
                     let sentence = GgaSentence(rawSentence: nnmeLineData)
                     return sentence.parse()
-                case "$GPRMC":
-                    fallthrough
-    //                let sentence = RmcSentence(rawSentence: nnmeLine)
-    //                return sentence.parse()
+                case "$GPRMC","$GNRMC":
+                    //does not contain altitude
+                    if (altitudeRequired) {fallthrough}
+                    let sentence = RmcSentence(rawSentence: nnmeLineData)
+                    return sentence.parse()
                 case "$GPGSV": fallthrough
                 default:
                     break
@@ -130,10 +132,10 @@ public class RmcSentence: NmeaSentence {
         let rawDate = splittedString[RmcSentence.Param.DATE.rawValue]
         
         let latitudeInDegree = convertLatitudeToDegree(with: rawLatitude.1)
-        print("Latitude in degrees: \(latitudeInDegree)")
+        //print("Latitude in degrees: \(latitudeInDegree)")
         
         let longitudeInDegree = convertLongitudeToDegree(with: rawLongitude.1)
-        print("Longitude in degrees: \(longitudeInDegree)")
+        //print("Longitude in degrees: \(longitudeInDegree)")
         
         let coordinate = CLLocationCoordinate2D(latitude: latitudeInDegree,
                                                 longitude: longitudeInDegree)
@@ -258,11 +260,9 @@ class GgaSentence: NmeaSentence{
     
         let coordinate = CLLocationCoordinate2D(latitude: latitudeInDegree, longitude: longitudeInDegree)
         
-        //コースとスピードは分からないので-1
         let course = CLLocationDirection(-1)
         let speed = CLLocationSpeed(-1)
         let now = Date()
-        //print("今日\(now)")
         
         let rawAltitude = (splittedString[GgaSentence.GpggaParam.ANTENNAHEIGHT.rawValue],splittedString[GgaSentence.GpggaParam.ANTENNAHEIGHTUINT.rawValue])
         
@@ -275,7 +275,6 @@ class GgaSentence: NmeaSentence{
 //        let timestamp = dateFormatter.date(from: nowtime)
 //        print(nowtime)
 //        print(timestamp)
-        //標高の計算がわかるまで０
         let altitude = CLLocationDistance(altitudeInMeters) ?? CLLocationDistance(0)
         let horizontalAccuracy = CLLocationAccuracy(0)
         let verticalAccuracy = CLLocationAccuracy(0)
@@ -284,13 +283,11 @@ class GgaSentence: NmeaSentence{
         return CLLocation(coordinate: coordinate,altitude: altitude, horizontalAccuracy: horizontalAccuracy,verticalAccuracy: verticalAccuracy, course: course,speed: speed, timestamp: now)
     }
     
-    //緯度の形式変換
     func convertLatitudeToDegree(with stringValue: String) -> Double {
         return Double(stringValue.prefix(2))! +
             Double(stringValue.suffix(from: String.Index.init(encodedOffset: 2)))! / 60
     }
     
-    //経度の形式変換
     func convertLongitudeToDegree(with stringValue: String) -> Double {
         return Double(stringValue.prefix(3))! +
             Double(stringValue.suffix(from: String.Index.init(encodedOffset: 3)))! / 60
