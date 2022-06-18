@@ -131,6 +131,11 @@ public class RmcSentence: NmeaSentence {
         let rawCourse = splittedString[RmcSentence.Param.COURSE.rawValue] // degree
         let rawDate = splittedString[RmcSentence.Param.DATE.rawValue]
         
+        if (rawLatitude.1.isEmpty || rawLongitude.1.isEmpty) {
+            print("Empty Latitude or longitude")
+            return nil
+        }
+        
         let latitudeInDegree = convertLatitudeToDegree(with: rawLatitude.1)
         //print("Latitude in degrees: \(latitudeInDegree)")
         
@@ -246,14 +251,24 @@ class GgaSentence: NmeaSentence{
         //print(rawTime)
         let rawLatitude = (splittedString[GgaSentence.GpggaParam.LATITUDE.rawValue],splittedString[GgaSentence.GpggaParam.LATITUDEDIR.rawValue])
         //print(rawLatitude)
+
         let rawLongitude = (splittedString[GgaSentence.GpggaParam.LONGITUDE.rawValue],splittedString[GgaSentence.GpggaParam.LONGITUDEDIR.rawValue])
         //print(rawLongitude)
+        
+        
         let rawAccuracy = splittedString[GgaSentence.GpggaParam.ACCURACY.rawValue]
         //print(rawAccuracy)
         //let rawLossrate = splittedString[GpggaSentence.GpggaParam.LOSSRATE.rawValue]
+        
+        
+        if (rawLatitude.1.isEmpty || rawLongitude.1.isEmpty) {
+            print("Empty Latitude or longitude")
+            return nil
+        }
+        
         let latitudeInDegree = convertLatitudeToDegree(with: rawLatitude.1)
-
         //print("Latitude in degrees: \(latitudeInDegree)")
+       
         let longitudeInDegree = convertLongitudeToDegree(with: rawLongitude.1)
         //print("Longitude in degrees: \(longitudeInDegree)")
         
