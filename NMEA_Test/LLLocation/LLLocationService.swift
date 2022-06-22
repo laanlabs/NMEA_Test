@@ -32,6 +32,7 @@ class LLLocationService: NSObject, CLLocationManagerDelegate, StreamDelegate {
     
     enum LocationSource : String {
         case none = "Not active"
+        case AvailableBestSource = "Chooses open TCP connection, defaults to corelocation"
         case CoreLocation = "iOS GPS"
         case NmeaTcpIp = "Nema Via TCPIP"
         case NmeaBluetooth = "Nema Via Bluetooth" //not implemented
@@ -72,14 +73,30 @@ class LLLocationService: NSObject, CLLocationManagerDelegate, StreamDelegate {
     
     typealias startCompletionBlock = (_ success: Bool, _ resultMessage : String ) -> Void
 
+    
     func startLocationManager ( source : LocationSource, completionHandler: @escaping startCompletionBlock) {
 
-        if source == .CoreLocation {
+        var pefferedSource = source
+        
+        //if NmeaTcpIp
+        if (pefferedSource == .AvailableBestSource) {
+            
+            if (self.locationSource == .NmeaTcpIp ) {
+                completionHandler(true, "Using Existing NEMA TCP CONNECTION")
+                return
+            }
+            
+            //else default to Corelocation
+            pefferedSource = .CoreLocation
+
+        }
+        
+        if pefferedSource == .CoreLocation {
             self.startCoreLocationManager(completionHandler: completionHandler)
             return
         }
         
-        if source == .NmeaTcpIp {
+        if pefferedSource == .NmeaTcpIp {
             self.startNmeaSocketService(completionHandler: completionHandler)
             return
         }
@@ -102,6 +119,15 @@ class LLLocationService: NSObject, CLLocationManagerDelegate, StreamDelegate {
         print("ERROR: \(error.localizedDescription)")
         delegate?.LLLocationError?(error)
         
+    }
+    
+    
+    func stopLocationService() {
+        if (self.locationManager != nil ) {
+            self.locationManager.stopUpdatingLocation()
+            
+        }
+
     }
     
     
@@ -164,6 +190,8 @@ class LLLocationService: NSObject, CLLocationManagerDelegate, StreamDelegate {
         }
     }
     
+    
+
     
     
     //IOS DELEGATES
@@ -323,6 +351,12 @@ class LLLocationService: NSObject, CLLocationManagerDelegate, StreamDelegate {
             print("Stream has space available now")
         case .errorOccurred:
             print("\(aStream.streamError?.localizedDescription ?? "")")
+            
+            if let error = aStream.streamError {
+                self.returnError(error)
+            }
+            
+            
         case .endEncountered:
             aStream.close()
             aStream.remove(from: RunLoop.current, forMode: RunLoop.Mode.default)
@@ -398,7 +432,7 @@ extension Date {
 class AppSettings {
  
     static let tagGpsDuringScan = true
-    static var GPS_IP_ADDRESS = "127.0.0.1"
+    static var GPS_IP_ADDRESS = "172.31.40.199" //127.0.0.1"
     static var GPS_IP_SOCKET = "3000"
 
 }

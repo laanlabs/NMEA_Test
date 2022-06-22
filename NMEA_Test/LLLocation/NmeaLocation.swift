@@ -136,11 +136,20 @@ public class RmcSentence: NmeaSentence {
             return nil
         }
         
-        let latitudeInDegree = convertLatitudeToDegree(with: rawLatitude.1)
+        var latitudeInDegree = convertLatitudeToDegree(with: rawLatitude.1)
         //print("Latitude in degrees: \(latitudeInDegree)")
         
-        let longitudeInDegree = convertLongitudeToDegree(with: rawLongitude.1)
+        var longitudeInDegree = convertLongitudeToDegree(with: rawLongitude.1)
         //print("Longitude in degrees: \(longitudeInDegree)")
+        
+        if (rawLatitude.0 == "S") {
+            latitudeInDegree = latitudeInDegree * (-1)
+        }
+            
+        if (rawLongitude.0 == "W") {
+            longitudeInDegree = longitudeInDegree * (-1)
+        }
+        
         
         let coordinate = CLLocationCoordinate2D(latitude: latitudeInDegree,
                                                 longitude: longitudeInDegree)
@@ -266,12 +275,21 @@ class GgaSentence: NmeaSentence{
             return nil
         }
         
-        let latitudeInDegree = convertLatitudeToDegree(with: rawLatitude.1)
+        var latitudeInDegree = convertLatitudeToDegree(with: rawLatitude.1)
         //print("Latitude in degrees: \(latitudeInDegree)")
-       
-        let longitudeInDegree = convertLongitudeToDegree(with: rawLongitude.1)
+
+        
+        var longitudeInDegree = convertLongitudeToDegree(with: rawLongitude.1)
         //print("Longitude in degrees: \(longitudeInDegree)")
         
+        if (rawLatitude.0 == "S") {
+            latitudeInDegree = latitudeInDegree * (-1)
+        }
+            
+        if (rawLongitude.0 == "W") {
+            longitudeInDegree = longitudeInDegree * (-1)
+        }
+
     
         let coordinate = CLLocationCoordinate2D(latitude: latitudeInDegree, longitude: longitudeInDegree)
         

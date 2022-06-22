@@ -7,6 +7,7 @@ import Foundation
 import UIKit
 import Eureka
 import PKHUD
+import CoreLocation
 
 
 
@@ -94,14 +95,26 @@ class GPSAdvancedViewController: FormViewController {
         form +++ Section("")
             
         
-            <<< ButtonRow().cellSetup({ (cell, row) in
-                row.tag = "CONNECT_BUTTON"
+            <<< ButtonRow("CONNECT_BUTTON_TAG").cellSetup({ (cell, row) in
                 row.title = (self.sharedLLLocationService.locationSource != .NmeaTcpIp) ? "CONNECT" : "DISCONNECT"
                 
             }).onCellSelection({ (ceil, row)  in
                 
                 self.connectNemaTapped()
             })
+        
+        
+        form +++ Section()
+                    <<< SwitchRow("switchRowTag"){
+                        $0.title = "Show Ouput"
+                    }
+                    <<< LabelRow("DebugRowTag"){
+
+                        $0.hidden = Condition.function(["switchRowTag"], { form in
+                            return !((form.rowBy(tag: "switchRowTag") as? SwitchRow)?.value ?? false)
+                        })
+                        $0.title = ""
+                }
         
         
         
@@ -145,7 +158,7 @@ class GPSAdvancedViewController: FormViewController {
         
         if (self.sharedLLLocationService.locationSource == .NmeaTcpIp) {
             self.sharedLLLocationService.disconnectScoketServer()
-            if let connectButtonRow : ButtonRow = self.form.rows[2] as? ButtonRow {
+            if let connectButtonRow : ButtonRow = self.form.rowBy(tag: "CONNECT_BUTTON_TAG") as? ButtonRow {
                 connectButtonRow.title = "CONNECT"
                 connectButtonRow.reload()
             }
@@ -155,7 +168,8 @@ class GPSAdvancedViewController: FormViewController {
         
         HUD.show(.labeledProgress(title: "Connecting...", subtitle: nil))
 
-   
+        
+        sharedLLLocationService.delegate = self
         sharedLLLocationService.startLocationManager(source: .NmeaTcpIp ) { success, result in
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -166,7 +180,7 @@ class GPSAdvancedViewController: FormViewController {
                 
                 if success {
                     
-                    if let connectButtonRow : ButtonRow = self.form.rows[2] as? ButtonRow {
+                    if let connectButtonRow : ButtonRow = self.form.rowBy(tag: "CONNECT_BUTTON_TAG") as? ButtonRow {
                         connectButtonRow.title = "DISCONNECT"
                         connectButtonRow.reload()
                     }
@@ -182,11 +196,10 @@ class GPSAdvancedViewController: FormViewController {
  
     }
     
-    private func userLoggedInSuccessfully() {
-        
- 
-        
-    }
+
+    
+    
+    
     
     private func userFailedToLogin(message: String) {
  
@@ -232,4 +245,35 @@ class GPSAdvancedViewController: FormViewController {
    }
     
     
+}
+
+
+
+
+extension GPSAdvancedViewController: LLLocationServiceDelegate {
+        
+        func LLLocationUpdated(_ location : CLLocation) {
+            
+            let output = "\(location.coordinate.latitude),\(location.coordinate.longitude),\(location.altitude)"
+            
+            if let connectButtonRow = self.form.rowBy(tag: "DebugRowTag") {
+                connectButtonRow.title = output
+                connectButtonRow.reload()
+            }
+            
+            
+            print("LAT: ", location.coordinate.latitude)
+            print("LON: ", location.coordinate.longitude)
+            print("ALT: ", location.altitude)
+            
+        }
+        
+
+            
+        func LLLocationError( _ error : Error) {
+            print("ERROR IN VC: \(error.localizedDescription)")
+            self.showAlert(title: "Error", message: "Details: \(error.localizedDescription)")
+
+        }
+        
 }

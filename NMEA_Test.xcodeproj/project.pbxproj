@@ -52,6 +52,7 @@
 			children = (
 				7F1961DE286304BC0068968D /* LLLocationService.swift */,
 				7F1961E328630F810068968D /* GPSAdvancedViewController.swift */,
+				7FBC0866284E8AA6007D6E17 /* NmeaLocation.swift */,
 			);
 			path = LLLocation;
 			sourceTree = "<group>";
@@ -79,7 +80,6 @@
 				7FBC0850284E7F6C007D6E17 /* AppDelegate.swift */,
 				7FBC0852284E7F6C007D6E17 /* SceneDelegate.swift */,
 				7FBC0854284E7F6C007D6E17 /* ViewController.swift */,
-				7FBC0866284E8AA6007D6E17 /* NmeaLocation.swift */,
 				7FBC0856284E7F6C007D6E17 /* Main.storyboard */,
 				7FBC0859284E7F6D007D6E17 /* Assets.xcassets */,
 				7FBC085B284E7F6D007D6E17 /* LaunchScreen.storyboard */,
@@ -319,6 +319,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 34FWY7G2HB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NMEA_Test/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -346,6 +347,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 34FWY7G2HB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NMEA_Test/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

@@ -74,8 +74,8 @@ class ViewController: UIViewController {
         }
         
         
-        
-        sharedLLLocationService.startLocationManager( source : .CoreLocation ) { success, result in
+        sharedLLLocationService.delegate = self
+        sharedLLLocationService.startLocationManager( source : .AvailableBestSource ) { success, result in
 
             print("RESULT: \(result)")
 
