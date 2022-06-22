@@ -11,8 +11,9 @@ import CoreLocation
 class ViewController: UIViewController {
 
     
-    var socketConnector:SocketDataManager!
 
+    var sharedLLLocationService : LLLocationService = LLLocationService.shared()
+    
     
     
     override func viewDidLoad() {
@@ -20,80 +21,118 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         
-        startNMEA()
+        let btn_1 = UIButton()
+        btn_1.setTitle("CONNECT RTK", for: .normal)
+        btn_1.setTitleColor(.blue, for: .normal)
+        btn_1.frame = CGRect(x: 100, y: 150, width: 300, height: 100)
+        btn_1.addTarget(self, action: #selector(startNMEATapped), for: .touchUpInside)
+        self.view.addSubview(btn_1)
+        
+        
+        let btn_2 = UIButton()
+        btn_2.setTitle("CONNECT CORE LOCATION", for: .normal)
+        btn_2.setTitleColor(.blue, for: .normal)
+        btn_2.frame = CGRect(x: 100, y: 350, width: 300, height: 100)
+        btn_2.addTarget(self, action: #selector(statCoreLocationTapped), for: .touchUpInside)
+        self.view.addSubview(btn_2)
+        
+        
+        
+        sharedLLLocationService.delegate = self
+
+        
+        //startNMEA()
         
     }
 
     
     
-    func startNMEA() {
+    @objc func startNMEATapped() {
         
-        socketConnector = SocketDataManager(with: self)
 
         
-        let ipAddr = "127.0.0.1"
-        let portVal = "3000"
-        let soc = SocketDataManager.DataSocket(ip: ipAddr, port: portVal)
-        socketConnector.connectWith(socket: soc)
+        let vc = GPSAdvancedViewController()
+
+        vc.delegate = self
+        //self.navigationController?.pushViewController(vc, animated: true)
+
+        //@jason: delete this
+        let nc = UINavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .popover
+
+        self.present(nc, animated: true, completion: nil)
         
         
     }
     
-
-}
-
-
-extension ViewController: PresenterProtocol{
     
-    func resetUIWithConnection(status: Bool){
+    func startCoreLocation() {
+        
+        if !sharedLLLocationService.coreLocationAuthorized() {
+            sharedLLLocationService.reqestCoreLocationAuthorization()
+            return
+        }
+        
+        
+        
+        sharedLLLocationService.startLocationManager( source : .CoreLocation ) { success, result in
+
+            print("RESULT: \(result)")
+
+            if success {
+
+            } else {
                 
-        if (status){
-            updateStatusViewWith(status: "Connected")
-        }else{
-            updateStatusViewWith(status: "Disconnected")
+                //let user know that dont have authorization or faire
+
+            }
+
         }
-    }
-    func updateStatusViewWith(status: String){
-        
-    }
-    
-    
-    func update(message: String){
-        
-        //print(message)
-        //print(NmeaParser.parseSentence(data: "$GPRMC,031849.49,A,5209.028,N,00955.836,E,,,310517,,E*7D")!)
-
         
         
     }
     
-    func updateData(data: String){
+    
+    
+    @objc func statCoreLocationTapped() {
         
-        //print(data)
-        
-        
-        //GNGGA or GPGGA w/ Altitude
-        //GNRMC or GPRMC wo/ Altitude
-        
-        //let testSentance = "$GNGGA,170110.20,4606.4473096,N,01313.6469059,E,5,12,1.63,135.856,M,44.137,M,0.2,3597*66\n"
-        //let testSentance = "$GNRMC,170108.80,A,4606.4473168,N,01313.6469219,E,0.043,,170622,,,F,V*1B\n"
+        self.startCoreLocation()
 
-        let altitudeRequired = true
-        
-        if let location : CLLocation = NmeaParser.parseSentence(data: (data), altitudeRequired: altitudeRequired) {
-            
-            //print(location)
-            
-            print("LAT: ", location.coordinate.latitude)
-            print("LON: ", location.coordinate.longitude)
-            print("ALT: ", location.altitude)
-            
-        }
-
-        
         
     }
+    
+    
 
+}
+
+extension ViewController: LLLocationServiceDelegate {
+    
+    func LLLocationUpdated(_ location : CLLocation) {
+        
+        print("LAT: ", location.coordinate.latitude)
+        print("LON: ", location.coordinate.longitude)
+        print("ALT: ", location.altitude)
+        
+    }
+    
+    func LLLocationAuthorized() {
+        
+        //if user approved start
+        //self.startCoreLocation()
+        
+    }
+    
+    func LLLocationNotAuthorized(){
+        print("ERROR: Location not authorized")
+
+    }
+    
+    
+    func LLLocationError( _ error : Error) {
+        print("ERROR IN VC: \(error.localizedDescription)")
+    }
     
 }
+
+
 

@@ -7,17 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F1961DF286304BC0068968D /* LLLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1961DE286304BC0068968D /* LLLocationService.swift */; };
+		7F1961E228630E7E0068968D /* Eureka in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1961E128630E7E0068968D /* Eureka */; };
+		7F1961E428630F810068968D /* GPSAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1961E328630F810068968D /* GPSAdvancedViewController.swift */; };
+		7F1961E7286310E40068968D /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1961E6286310E40068968D /* PKHUD */; };
 		7FBC0851284E7F6C007D6E17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC0850284E7F6C007D6E17 /* AppDelegate.swift */; };
 		7FBC0853284E7F6C007D6E17 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC0852284E7F6C007D6E17 /* SceneDelegate.swift */; };
 		7FBC0855284E7F6C007D6E17 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC0854284E7F6C007D6E17 /* ViewController.swift */; };
 		7FBC0858284E7F6C007D6E17 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FBC0856284E7F6C007D6E17 /* Main.storyboard */; };
 		7FBC085A284E7F6D007D6E17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FBC0859284E7F6D007D6E17 /* Assets.xcassets */; };
 		7FBC085D284E7F6D007D6E17 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FBC085B284E7F6D007D6E17 /* LaunchScreen.storyboard */; };
-		7FBC0865284E87D1007D6E17 /* NMEA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC0864284E87D1007D6E17 /* NMEA.swift */; };
 		7FBC0867284E8AA6007D6E17 /* NmeaLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBC0866284E8AA6007D6E17 /* NmeaLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F1961DE286304BC0068968D /* LLLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLLocationService.swift; sourceTree = "<group>"; };
+		7F1961E328630F810068968D /* GPSAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSAdvancedViewController.swift; sourceTree = "<group>"; };
 		7FBC084D284E7F6C007D6E17 /* NMEA_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NMEA_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FBC0850284E7F6C007D6E17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7FBC0852284E7F6C007D6E17 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,7 +31,6 @@
 		7FBC0859284E7F6D007D6E17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7FBC085C284E7F6D007D6E17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7FBC085E284E7F6D007D6E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7FBC0864284E87D1007D6E17 /* NMEA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMEA.swift; sourceTree = "<group>"; };
 		7FBC0866284E8AA6007D6E17 /* NmeaLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NmeaLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -35,12 +39,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F1961E228630E7E0068968D /* Eureka in Frameworks */,
+				7F1961E7286310E40068968D /* PKHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F1961E8286356B60068968D /* LLLocation */ = {
+			isa = PBXGroup;
+			children = (
+				7F1961DE286304BC0068968D /* LLLocationService.swift */,
+				7F1961E328630F810068968D /* GPSAdvancedViewController.swift */,
+			);
+			path = LLLocation;
+			sourceTree = "<group>";
+		};
 		7FBC0844284E7F6C007D6E17 = {
 			isa = PBXGroup;
 			children = (
@@ -60,7 +75,7 @@
 		7FBC084F284E7F6C007D6E17 /* NMEA_Test */ = {
 			isa = PBXGroup;
 			children = (
-				7FBC0864284E87D1007D6E17 /* NMEA.swift */,
+				7F1961E8286356B60068968D /* LLLocation */,
 				7FBC0850284E7F6C007D6E17 /* AppDelegate.swift */,
 				7FBC0852284E7F6C007D6E17 /* SceneDelegate.swift */,
 				7FBC0854284E7F6C007D6E17 /* ViewController.swift */,
@@ -89,6 +104,10 @@
 			dependencies = (
 			);
 			name = NMEA_Test;
+			packageProductDependencies = (
+				7F1961E128630E7E0068968D /* Eureka */,
+				7F1961E6286310E40068968D /* PKHUD */,
+			);
 			productName = NMEA_Test;
 			productReference = 7FBC084D284E7F6C007D6E17 /* NMEA_Test.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +136,10 @@
 				Base,
 			);
 			mainGroup = 7FBC0844284E7F6C007D6E17;
+			packageReferences = (
+				7F1961E028630E7E0068968D /* XCRemoteSwiftPackageReference "Eureka" */,
+				7F1961E5286310E40068968D /* XCRemoteSwiftPackageReference "PKHUD" */,
+			);
 			productRefGroup = 7FBC084E284E7F6C007D6E17 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -144,9 +167,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F1961DF286304BC0068968D /* LLLocationService.swift in Sources */,
 				7FBC0855284E7F6C007D6E17 /* ViewController.swift in Sources */,
+				7F1961E428630F810068968D /* GPSAdvancedViewController.swift in Sources */,
 				7FBC0851284E7F6C007D6E17 /* AppDelegate.swift in Sources */,
-				7FBC0865284E87D1007D6E17 /* NMEA.swift in Sources */,
 				7FBC0867284E8AA6007D6E17 /* NmeaLocation.swift in Sources */,
 				7FBC0853284E7F6C007D6E17 /* SceneDelegate.swift in Sources */,
 			);
@@ -364,6 +388,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7F1961E028630E7E0068968D /* XCRemoteSwiftPackageReference "Eureka" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/xmartlabs/Eureka";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		7F1961E5286310E40068968D /* XCRemoteSwiftPackageReference "PKHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pkluz/PKHUD/";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7F1961E128630E7E0068968D /* Eureka */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1961E028630E7E0068968D /* XCRemoteSwiftPackageReference "Eureka" */;
+			productName = Eureka;
+		};
+		7F1961E6286310E40068968D /* PKHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F1961E5286310E40068968D /* XCRemoteSwiftPackageReference "PKHUD" */;
+			productName = PKHUD;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7FBC0845284E7F6C007D6E17 /* Project object */;
 }

@@ -21,5 +21,9 @@
 			</array>
 		</dict>
 	</dict>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Enable to view scan on GPS Map</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Add GPS data to scans if enabled</string>
 </dict>
 </plist>
